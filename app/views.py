@@ -16,7 +16,7 @@ import os
 import uuid
 from PIL import Image
 import PyPDF2
-import pytesseract
+#import pytesseract
 from django.http import JsonResponse
 #from transformers import T5ForConditionalGeneration, T5Tokenizer
 from django.core.paginator import Paginator
@@ -303,8 +303,8 @@ import magic  # Detect file type (MIME)
 import chardet  # Auto-detect file encoding
 import fitz  # PyMuPDF for PDF text extraction
 from docx import Document  # Extract text from DOCX files
-import pythoncom  # Required for pywin32 on Windows
-import win32com.client  # Extract text from DOC files (Microsoft Word)
+#import pythoncom  # Required for pywin32 on Windows
+#import win32com.client  # Extract text from DOC files (Microsoft Word)
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import UploadFileModel, UserModel
@@ -338,18 +338,7 @@ def extract_text_from_docx(docx_path):
         return None
 
 # Extract text from DOC files using Microsoft Word
-def extract_text_from_doc(doc_path):
-    try:
-        pythoncom.CoInitialize()  # Required for Windows
-        word = win32com.client.Dispatch("Word.Application")
-        word.Visible = False  # Run in background
-        doc = word.Documents.Open(os.path.abspath(doc_path))
-        text = doc.Content.Text.strip()
-        doc.Close(False)
-        word.Quit()
-        return text
-    except Exception:
-        return None
+
 def extract_text(file_path, extension):
     """Extract text from a file based on its extension."""
     if extension in {'.txt', '.csv'}:  # Text-based files
@@ -609,8 +598,8 @@ import uuid
 import chardet  # Auto-detect file encoding
 import fitz  # PyMuPDF for PDF text extraction
 from docx import Document  # Extract text from DOCX files
-import pythoncom  # Required for pywin32 on Windows
-import win32com.client  # Extract text from DOC files (Microsoft Word)
+#import pythoncom  # Required for pywin32 on Windows
+#import win32com.client  # Extract text from DOC files (Microsoft Word)
 from .models import UploadFileModel
 
 # Supported file types
@@ -646,22 +635,7 @@ def extract_text_from_docx(docx_path):
     except Exception as e:
         return None  # Return None if extraction fails
 
-def extract_text_from_doc(doc_path):
-    """Extract text from a DOC file using pywin32 (Microsoft Word)."""
-    try:
-        pythoncom.CoInitialize()  # Initialize COM (Required for Windows)
-        word = win32com.client.Dispatch("Word.Application")
-        word.Visible = False  # Run MS Word in the background
-
-        doc = word.Documents.Open(os.path.abspath(doc_path))  # Open the document
-        text = doc.Content.Text.strip()  # Extract text
-        doc.Close(False)  # Close the document (without saving)
-        word.Quit()  # Quit Word application
-
-        return text
-    except Exception as e:
-        return None  # Return None if extraction fails
-
+ 
 def text_to_speech(request, id, req):
     # Retrieve the file path from the model
     if req == 'owner':
